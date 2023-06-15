@@ -52,12 +52,12 @@ are pushed to allow for limited stability without pinning to an arbitrary
 commit:
 
 ```sh
-go get github.com/urfave/cli/v3@latest
+go get github.com/gozelle/cli/v3@latest
 ```
 
 ```go
 import (
-  "github.com/urfave/cli/v3" // imports as package "cli"
+  "github.com/gozelle/cli/v3" // imports as package "cli"
 )
 ```
 

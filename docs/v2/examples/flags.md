@@ -251,7 +251,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/urfave/cli/v3"
+	"github.com/gozelle/cli/v3"
 )
 
 func main() {

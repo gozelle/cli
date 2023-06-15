@@ -24,7 +24,7 @@ The majority of active development and issue management is targeting the `main` 
 which is currently in *alpha*.
 
 - :arrow_right: [`v3.x`](https://github.com/urfave/cli/milestone/5)
-- :arrow_right: `github.com/urfave/cli/v3`
+- :arrow_right: `github.com/gozelle/cli/v3`
 
 The `main` branch includes tooling to help with keeping track of `v3.x` series backward
 compatibility. More details on this process are in the development workflow section below.

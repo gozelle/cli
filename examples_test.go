@@ -3,11 +3,10 @@ package cli_test
 import (
 	"context"
 	"fmt"
+	"github.com/gozelle/cli/v3"
 	"net/mail"
 	"os"
 	"time"
-
-	"github.com/urfave/cli/v3"
 )
 
 func ExampleCommand_Run() {
@@ -27,10 +26,10 @@ func ExampleCommand_Run() {
 		},
 		Version: "v0.13.12",
 	}
-
+	
 	// Simulate the command line arguments
 	os.Args = []string{"greet", "--name", "Jeremy"}
-
+	
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
 		// do something with unhandled errors
 		fmt.Fprintf(os.Stderr, "Unhandled error: %[1]v\n", err)
@@ -71,13 +70,13 @@ func ExampleCommand_Run_subcommand() {
 			},
 		},
 	}
-
+	
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 	defer cancel()
-
+	
 	// Simulate the command line arguments
 	os.Args = []string{"say", "hi", "english", "--name", "Jeremy"}
-
+	
 	_ = cmd.Run(ctx, os.Args)
 	// Output:
 	// Hello, Jeremy
@@ -108,13 +107,13 @@ func ExampleCommand_Run_appHelp() {
 			},
 		},
 	}
-
+	
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Millisecond)
 	defer cancel()
-
+	
 	// Simulate the command line arguments
 	os.Args = []string{"greet", "help"}
-
+	
 	_ = cmd.Run(ctx, os.Args)
 	// Output:
 	// NAME:
@@ -166,10 +165,10 @@ func ExampleCommand_Run_commandHelp() {
 			},
 		},
 	}
-
+	
 	// Simulate the command line arguments
 	os.Args = []string{"greet", "h", "describeit"}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// NAME:
@@ -190,10 +189,10 @@ func ExampleCommand_Run_commandHelp() {
 
 func ExampleCommand_Run_noAction() {
 	cmd := &cli.Command{Name: "greet"}
-
+	
 	// Simulate the command line arguments
 	os.Args = []string{"greet"}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// NAME:
@@ -221,10 +220,10 @@ func ExampleCommand_Run_subcommandNoAction() {
 			},
 		},
 	}
-
+	
 	// Simulate the command line arguments
 	os.Args = []string{"greet", "describeit"}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// NAME:
@@ -255,11 +254,11 @@ func ExampleCommand_Run_shellComplete_bash_withShortFlag() {
 			},
 		},
 	}
-
+	
 	// Simulate a bash environment and command line arguments
 	os.Setenv("SHELL", "bash")
 	os.Args = []string{"greet", "-", "--generate-shell-completion"}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// --other
@@ -291,11 +290,11 @@ func ExampleCommand_Run_shellComplete_bash_withLongFlag() {
 			},
 		},
 	}
-
+	
 	// Simulate a bash environment and command line arguments
 	os.Setenv("SHELL", "bash")
 	os.Args = []string{"greet", "--s", "--generate-shell-completion"}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// --some-flag
@@ -326,11 +325,11 @@ func ExampleCommand_Run_shellComplete_bash_withMultipleLongFlag() {
 			},
 		},
 	}
-
+	
 	// Simulate a bash environment and command line arguments
 	os.Setenv("SHELL", "bash")
 	os.Args = []string{"greet", "--st", "--generate-shell-completion"}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// --string
@@ -362,11 +361,11 @@ func ExampleCommand_Run_shellComplete_bash() {
 			},
 		},
 	}
-
+	
 	// Simulate a bash environment and command line arguments
 	os.Setenv("SHELL", "bash")
 	os.Args = []string{"greet", "--generate-shell-completion"}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// describeit
@@ -401,11 +400,11 @@ func ExampleCommand_Run_shellComplete_zsh() {
 			},
 		},
 	}
-
+	
 	// Simulate a zsh environment and command line arguments
 	os.Args = []string{"greet", "--generate-shell-completion"}
 	os.Setenv("SHELL", "/usr/bin/zsh")
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// describeit:use it to see a description
@@ -433,7 +432,7 @@ func ExampleCommand_Run_sliceValues() {
 			return err
 		},
 	}
-
+	
 	// Simulate command line arguments
 	os.Args = []string{
 		"multi_values",
@@ -442,7 +441,7 @@ func ExampleCommand_Run_sliceValues() {
 		"--int64Sclice", "13,14", "--int64Sclice", "15,16",
 		"--intSclice", "13,14", "--intSclice", "15,16",
 	}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// 0-float64Sclice []float64{13.3, 14.4, 15.5, 16.6}
@@ -468,13 +467,13 @@ func ExampleCommand_Run_mapValues() {
 			return err
 		},
 	}
-
+	
 	// Simulate command line arguments
 	os.Args = []string{
 		"multi_values",
 		"--stringMap", "parsed1=parsed two", "--stringMap", "parsed3=",
 	}
-
+	
 	_ = cmd.Run(context.Background(), os.Args)
 	// Output:
 	// 0-stringMap map[string]string{"parsed1":"parsed two", "parsed3":""}
@@ -488,7 +487,7 @@ func ExampleBoolWithInverseFlag() {
 			Name: "env",
 		},
 	}
-
+	
 	cmd := &cli.Command{
 		Flags: []cli.Flag{
 			flagWithInverse,
@@ -501,16 +500,16 @@ func ExampleBoolWithInverseFlag() {
 					fmt.Println("no-env is set")
 				}
 			}
-
+			
 			return nil
 		},
 	}
-
+	
 	_ = cmd.Run(context.Background(), []string{"prog", "--no-env"})
 	_ = cmd.Run(context.Background(), []string{"prog", "--env"})
-
+	
 	fmt.Println("flags:", len(flagWithInverse.Flags()))
-
+	
 	// Output:
 	// no-env is set
 	// env is set
@@ -533,7 +532,7 @@ func ExampleCommand_Suggest() {
 			return nil
 		},
 	}
-
+	
 	if cmd.Run(context.Background(), []string{"greet", "--nema", "chipmunk"}) == nil {
 		fmt.Println("Expected error")
 	}
@@ -576,7 +575,7 @@ func ExampleCommand_Suggest_command() {
 			},
 		},
 	}
-
+	
 	if cmd.Run(context.Background(), []string{"greet", "neighbors", "--sliming"}) == nil {
 		fmt.Println("Expected error")
 	}
