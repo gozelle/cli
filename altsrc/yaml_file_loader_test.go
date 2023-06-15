@@ -3,6 +3,7 @@ package altsrc_test
 import (
 	"errors"
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"io/ioutil"
 	"log"
 	"os"

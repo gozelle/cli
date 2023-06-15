@@ -3,6 +3,7 @@ package altsrc
 import (
 	"flag"
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"os"
 	"path/filepath"
 	"runtime"

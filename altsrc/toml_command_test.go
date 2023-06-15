@@ -2,6 +2,7 @@ package altsrc
 
 import (
 	"flag"
+	"github.com/gozelle/cli/v2"
 	"os"
 	"testing"
 )

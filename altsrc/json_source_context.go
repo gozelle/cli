@@ -3,6 +3,7 @@ package altsrc
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"io"
 	"strings"
 	"time"

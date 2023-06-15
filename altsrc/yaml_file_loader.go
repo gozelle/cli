@@ -2,6 +2,7 @@ package altsrc
 
 import (
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"io"
 	"net/http"
 	"net/url"

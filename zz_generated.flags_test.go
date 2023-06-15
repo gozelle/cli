@@ -4,6 +4,7 @@ package cli_test
 
 import (
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"testing"
 )
 

@@ -2,6 +2,7 @@ package altsrc
 
 import (
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"path/filepath"
 	"strconv"
 	"syscall"

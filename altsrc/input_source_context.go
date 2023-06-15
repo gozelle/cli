@@ -1,6 +1,7 @@
 package altsrc
 
 import (
+	"github.com/gozelle/cli/v2"
 	"time"
 )
 
