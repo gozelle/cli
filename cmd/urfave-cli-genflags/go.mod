@@ -1,9 +1,9 @@
-module github.com/urfave/cli/v2/cmd/urfave-cli-genflags
+module github.com/gozelle/cli/v2/cmd/urfave-cli-genflags
 
 go 1.18
 
 require (
-	github.com/urfave/cli/v2 v2.23.4
+	github.com/gozelle/cli/v2 v2.23.4
 	golang.org/x/text v0.4.0
 	gopkg.in/yaml.v3 v3.0.1
 )

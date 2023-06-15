@@ -1,5 +1,5 @@
 GOIMPORTS_BIN ?= $(shell which goimports || true)
-GOTEST_FLAGS ?= -v --coverprofile main.coverprofile --covermode count --cover github.com/urfave/cli/v2/cmd/urfave-cli-genflags
+GOTEST_FLAGS ?= -v --coverprofile main.coverprofile --covermode count --cover github.com/gozelle/cli/v2/cmd/urfave-cli-genflags
 GOBUILD_FLAGS ?= -x
 
 export GOIMPORTS_BIN

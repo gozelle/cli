@@ -4,8 +4,6 @@ import (
 	"flag"
 	"os"
 	"testing"
-
-	"github.com/urfave/cli/v2"
 )
 
 const (
@@ -17,14 +15,14 @@ const (
 func TestCommandJSONFileTest(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, simpleJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	test := []string{"test-cmd", "--load", fileName}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -33,7 +31,7 @@ func TestCommandJSONFileTest(t *testing.T) {
 		Action: func(c *cli.Context) error {
 			val := c.Int("test")
 			expect(t, val, 15)
-
+			
 			valb := c.Bool("testb")
 			expect(t, valb, false)
 			return nil
@@ -46,24 +44,24 @@ func TestCommandJSONFileTest(t *testing.T) {
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileTestGlobalEnvVarWins(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, simpleJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	_ = os.Setenv("THE_TEST", "10")
 	defer os.Setenv("THE_TEST", "")
-
+	
 	test := []string{"test-cmd", "--load", fileName}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -79,26 +77,26 @@ func TestCommandJSONFileTestGlobalEnvVarWins(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileTestGlobalEnvVarWinsNested(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, nestedJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	_ = os.Setenv("THE_TEST", "10")
 	defer os.Setenv("THE_TEST", "")
-
+	
 	test := []string{"test-cmd", "--load", fileName}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -114,23 +112,23 @@ func TestCommandJSONFileTestGlobalEnvVarWinsNested(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileTestSpecifiedFlagWins(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, simpleJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	test := []string{"test-cmd", "--load", fileName, "--test", "7"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -146,23 +144,23 @@ func TestCommandJSONFileTestSpecifiedFlagWins(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileTestSpecifiedFlagWinsNested(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, nestedJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	test := []string{"test-cmd", "--load", fileName, "--top.test", "7"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -178,23 +176,23 @@ func TestCommandJSONFileTestSpecifiedFlagWinsNested(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileTestDefaultValueFileWins(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, simpleJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	test := []string{"test-cmd", "--load", fileName}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -210,23 +208,23 @@ func TestCommandJSONFileTestDefaultValueFileWins(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileTestDefaultValueFileWinsNested(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, nestedJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	test := []string{"test-cmd", "--load", fileName}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -242,26 +240,26 @@ func TestCommandJSONFileTestDefaultValueFileWinsNested(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileFlagHasDefaultGlobalEnvJSONSetGlobalEnvWins(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, simpleJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	_ = os.Setenv("THE_TEST", "11")
 	defer os.Setenv("THE_TEST", "")
-
+	
 	test := []string{"test-cmd", "--load", fileName}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -278,24 +276,24 @@ func TestCommandJSONFileFlagHasDefaultGlobalEnvJSONSetGlobalEnvWins(t *testing.T
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
 func TestCommandJSONFileFlagHasDefaultGlobalEnvJSONSetGlobalEnvWinsNested(t *testing.T) {
 	cleanup := writeTempFile(t, fileName, nestedJSON)
 	defer cleanup()
-
+	
 	app := &cli.App{}
 	set := flag.NewFlagSet("test", 0)
 	_ = os.Setenv("THE_TEST", "11")
 	defer os.Setenv("THE_TEST", "")
-
+	
 	test := []string{"test-cmd", "--load", fileName}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -312,7 +310,7 @@ func TestCommandJSONFileFlagHasDefaultGlobalEnvJSONSetGlobalEnvWinsNested(t *tes
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewJSONSourceFromFlagFunc("load"))
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 

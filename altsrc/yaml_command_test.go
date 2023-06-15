@@ -4,8 +4,6 @@ import (
 	"flag"
 	"os"
 	"testing"
-
-	"github.com/urfave/cli/v2"
 )
 
 func TestCommandYamlFileTest(t *testing.T) {
@@ -15,9 +13,9 @@ func TestCommandYamlFileTest(t *testing.T) {
 	defer os.Remove("current.yaml")
 	test := []string{"test-cmd", "--load", "current.yaml"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -34,7 +32,7 @@ func TestCommandYamlFileTest(t *testing.T) {
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -43,14 +41,14 @@ func TestCommandYamlFileTestGlobalEnvVarWins(t *testing.T) {
 	set := flag.NewFlagSet("test", 0)
 	_ = os.WriteFile("current.yaml", []byte("test: 15"), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	_ = os.Setenv("THE_TEST", "10")
 	defer os.Setenv("THE_TEST", "")
 	test := []string{"test-cmd", "--load", "current.yaml"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -66,9 +64,9 @@ func TestCommandYamlFileTestGlobalEnvVarWins(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -78,14 +76,14 @@ func TestCommandYamlFileTestGlobalEnvVarWinsNested(t *testing.T) {
 	_ = os.WriteFile("current.yaml", []byte(`top:
   test: 15`), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	_ = os.Setenv("THE_TEST", "10")
 	defer os.Setenv("THE_TEST", "")
 	test := []string{"test-cmd", "--load", "current.yaml"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -101,9 +99,9 @@ func TestCommandYamlFileTestGlobalEnvVarWinsNested(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -112,12 +110,12 @@ func TestCommandYamlFileTestSpecifiedFlagWins(t *testing.T) {
 	set := flag.NewFlagSet("test", 0)
 	_ = os.WriteFile("current.yaml", []byte("test: 15"), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	test := []string{"test-cmd", "--load", "current.yaml", "--test", "7"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -133,9 +131,9 @@ func TestCommandYamlFileTestSpecifiedFlagWins(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -145,12 +143,12 @@ func TestCommandYamlFileTestSpecifiedFlagWinsNested(t *testing.T) {
 	_ = os.WriteFile("current.yaml", []byte(`top:
   test: 15`), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	test := []string{"test-cmd", "--load", "current.yaml", "--top.test", "7"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -166,9 +164,9 @@ func TestCommandYamlFileTestSpecifiedFlagWinsNested(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -177,12 +175,12 @@ func TestCommandYamlFileTestDefaultValueFileWins(t *testing.T) {
 	set := flag.NewFlagSet("test", 0)
 	_ = os.WriteFile("current.yaml", []byte("test: 15"), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	test := []string{"test-cmd", "--load", "current.yaml"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -198,9 +196,9 @@ func TestCommandYamlFileTestDefaultValueFileWins(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -210,12 +208,12 @@ func TestCommandYamlFileTestDefaultValueFileWinsNested(t *testing.T) {
 	_ = os.WriteFile("current.yaml", []byte(`top:
   test: 15`), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	test := []string{"test-cmd", "--load", "current.yaml"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -231,9 +229,9 @@ func TestCommandYamlFileTestDefaultValueFileWinsNested(t *testing.T) {
 			&cli.StringFlag{Name: "load"}},
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
-
+	
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -242,15 +240,15 @@ func TestCommandYamlFileFlagHasDefaultGlobalEnvYamlSetGlobalEnvWins(t *testing.T
 	set := flag.NewFlagSet("test", 0)
 	_ = os.WriteFile("current.yaml", []byte("test: 15"), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	_ = os.Setenv("THE_TEST", "11")
 	defer os.Setenv("THE_TEST", "")
-
+	
 	test := []string{"test-cmd", "--load", "current.yaml"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -267,7 +265,7 @@ func TestCommandYamlFileFlagHasDefaultGlobalEnvYamlSetGlobalEnvWins(t *testing.T
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }
 
@@ -277,15 +275,15 @@ func TestCommandYamlFileFlagHasDefaultGlobalEnvYamlSetGlobalEnvWinsNested(t *tes
 	_ = os.WriteFile("current.yaml", []byte(`top:
   test: 15`), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	_ = os.Setenv("THE_TEST", "11")
 	defer os.Setenv("THE_TEST", "")
-
+	
 	test := []string{"test-cmd", "--load", "current.yaml"}
 	_ = set.Parse(test)
-
+	
 	c := cli.NewContext(app, set, nil)
-
+	
 	command := &cli.Command{
 		Name:        "test-cmd",
 		Aliases:     []string{"tc"},
@@ -302,6 +300,6 @@ func TestCommandYamlFileFlagHasDefaultGlobalEnvYamlSetGlobalEnvWinsNested(t *tes
 	}
 	command.Before = InitInputSourceWithContext(command.Flags, NewYamlSourceFromFlagFunc("load"))
 	err := command.Run(c, test...)
-
+	
 	expect(t, err, nil)
 }

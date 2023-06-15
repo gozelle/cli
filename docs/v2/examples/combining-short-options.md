@@ -28,7 +28,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/urfave/cli/v2"
+	"github.com/gozelle/cli/v2"
 )
 
 func main() {

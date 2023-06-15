@@ -24,7 +24,7 @@ The majority of active development and issue management is targeting the `main` 
 which **MUST** *only* receive bug fixes and feature *additions*.
 
 - :arrow_right: [`v2.x`](https://github.com/urfave/cli/milestone/16)
-- :arrow_right: `github.com/urfave/cli/v2`
+- :arrow_right: `github.com/gozelle/cli/v2`
 
 The `main` branch in particular includes tooling to help with keeping the `v2.x` series
 backward compatible. More details on this process are in the development workflow section

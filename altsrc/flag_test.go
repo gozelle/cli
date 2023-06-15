@@ -9,8 +9,6 @@ import (
 	"strings"
 	"testing"
 	"time"
-
-	"github.com/urfave/cli/v2"
 )
 
 type testApplyInputSource struct {
@@ -46,7 +44,7 @@ func TestGenericApplyInputSourceValue_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, v, c.Generic("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, v, c.Generic("test_alias"))
 }
@@ -60,7 +58,7 @@ func TestGenericApplyInputSourceValue(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, v, c.Generic("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, v, c.Generic("test"))
 }
@@ -75,7 +73,7 @@ func TestGenericApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, p, c.Generic("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, p, c.Generic("test"))
 }
@@ -94,7 +92,7 @@ func TestGenericApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, &Parser{"abc", "def"}, c.Generic("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, &Parser{"abc", "def"}, c.Generic("test"))
 }
@@ -109,7 +107,7 @@ func TestStringSliceApplyInputSourceValue_Alias(t *testing.T) {
 	c := runTest(t, tis)
 	expect(t, c.StringSlice("test_alias"), []string{"hello", "world"})
 	expect(t, dest.Value(), []string{"hello", "world"})
-
+	
 	// reset dest
 	dest = cli.NewStringSlice()
 	tis = testApplyInputSource{
@@ -132,7 +130,7 @@ func TestStringSliceApplyInputSourceValue(t *testing.T) {
 	c := runTest(t, tis)
 	expect(t, c.StringSlice("test"), []string{"hello", "world"})
 	expect(t, dest.Value(), []string{"hello", "world"})
-
+	
 	// reset dest
 	dest = cli.NewStringSlice()
 	tis = testApplyInputSource{
@@ -167,7 +165,7 @@ func TestStringSliceApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, c.StringSlice("test"), []string{"oh", "no"})
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, c.StringSlice("test"), []string{"oh", "no"})
 }
@@ -182,7 +180,7 @@ func TestIntSliceApplyInputSourceValue_Alias(t *testing.T) {
 	c := runTest(t, tis)
 	expect(t, c.IntSlice("test_alias"), []int{1, 2})
 	expect(t, dest.Value(), []int{1, 2})
-
+	
 	dest = cli.NewIntSlice()
 	tis = testApplyInputSource{
 		Flag:     NewIntSliceFlag(&cli.IntSliceFlag{Name: "test", Aliases: []string{"test_alias"}, Destination: dest}),
@@ -204,7 +202,7 @@ func TestIntSliceApplyInputSourceValue(t *testing.T) {
 	c := runTest(t, tis)
 	expect(t, c.IntSlice("test"), []int{1, 2})
 	expect(t, dest.Value(), []int{1, 2})
-
+	
 	// reset dest
 	dest = cli.NewIntSlice()
 	tis = testApplyInputSource{
@@ -228,7 +226,7 @@ func TestIntSliceApplyInputSourceMethodContextSet(t *testing.T) {
 	c := runTest(t, tis)
 	expect(t, c.IntSlice("test"), []int{3})
 	expect(t, dest.Value(), []int{3})
-
+	
 	// reset dest
 	dest = cli.NewIntSlice()
 	tis = testApplyInputSource{
@@ -252,7 +250,7 @@ func TestIntSliceApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, c.IntSlice("test"), []int{3, 4})
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, c.IntSlice("test"), []int{3, 4})
 }
@@ -267,7 +265,7 @@ func TestInt64SliceFlagApplyInputSourceValue(t *testing.T) {
 	c := runTest(t, tis)
 	expect(t, c.Int64Slice("test"), []int64{1, 2})
 	expect(t, dest.Value(), []int64{1, 2})
-
+	
 	// reset dest
 	dest = cli.NewInt64Slice()
 	tis = testApplyInputSource{
@@ -302,7 +300,7 @@ func TestFloat64SliceFlagApplyInputSourceValue(t *testing.T) {
 	c := runTest(t, tis)
 	expect(t, c.Float64Slice("test"), []float64{1.0, 2.1})
 	expect(t, dest.Value(), []float64{1.0, 2.1})
-
+	
 	// reset dest
 	dest = cli.NewFloat64Slice()
 	tis = testApplyInputSource{
@@ -347,7 +345,7 @@ func TestBoolApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, true, c.Bool("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, true, c.Bool("test"))
 }
@@ -360,7 +358,7 @@ func TestBoolApplyInputSourceMethodSet_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, true, c.Bool("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, true, c.Bool("test_alias"))
 }
@@ -374,7 +372,7 @@ func TestBoolApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, true, c.Bool("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, true, c.Bool("test"))
 }
@@ -389,7 +387,7 @@ func TestBoolApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, true, c.Bool("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, true, c.Bool("test"))
 }
@@ -402,7 +400,7 @@ func TestStringApplyInputSourceMethodSet_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, "hello", c.String("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, "hello", c.String("test_alias"))
 }
@@ -415,7 +413,7 @@ func TestStringApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, "hello", c.String("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, "hello", c.String("test"))
 }
@@ -429,7 +427,7 @@ func TestStringApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, "goodbye", c.String("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, "goodbye", c.String("test"))
 }
@@ -444,7 +442,7 @@ func TestStringApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, "goodbye", c.String("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, "goodbye", c.String("test"))
 }
@@ -457,7 +455,7 @@ func TestPathApplyInputSourceMethodSet_Alias(t *testing.T) {
 		SourcePath: "/path/to/source/file",
 	}
 	c := runTest(t, tis)
-
+	
 	expected := "/path/to/source/hello"
 	if runtime.GOOS == "windows" {
 		var err error
@@ -469,7 +467,7 @@ func TestPathApplyInputSourceMethodSet_Alias(t *testing.T) {
 		}
 	}
 	expect(t, expected, c.String("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, expected, c.String("test_alias"))
 }
@@ -482,7 +480,7 @@ func TestPathApplyInputSourceMethodSet(t *testing.T) {
 		SourcePath: "/path/to/source/file",
 	}
 	c := runTest(t, tis)
-
+	
 	expected := "/path/to/source/hello"
 	if runtime.GOOS == "windows" {
 		var err error
@@ -494,7 +492,7 @@ func TestPathApplyInputSourceMethodSet(t *testing.T) {
 		}
 	}
 	expect(t, expected, c.String("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, expected, c.String("test"))
 }
@@ -509,7 +507,7 @@ func TestPathApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, "goodbye", c.String("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, "goodbye", c.String("test"))
 }
@@ -525,7 +523,7 @@ func TestPathApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, "goodbye", c.String("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, "goodbye", c.String("test"))
 }
@@ -538,7 +536,7 @@ func TestIntApplyInputSourceMethodSet_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 15, c.Int("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 15, c.Int("test_alias"))
 }
@@ -551,7 +549,7 @@ func TestIntApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 15, c.Int("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 15, c.Int("test"))
 }
@@ -564,7 +562,7 @@ func TestIntApplyInputSourceMethodSetNegativeValue(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, -1, c.Int("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, -1, c.Int("test"))
 }
@@ -578,7 +576,7 @@ func TestIntApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 7, c.Int("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 7, c.Int("test"))
 }
@@ -614,7 +612,7 @@ func TestIntApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 12, c.Int("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 12, c.Int("test"))
 }
@@ -627,7 +625,7 @@ func TestInt64ApplyInputSourceMethodSet_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, int64(15), c.Int64("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, int64(15), c.Int64("test_alias"))
 }
@@ -640,7 +638,7 @@ func TestInt64ApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, int64(15), c.Int64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, int64(15), c.Int("test"))
 }
@@ -653,7 +651,7 @@ func TestInt64ApplyInputSourceMethodSetNegativeValue(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, int64(-1), c.Int64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, int64(-1), c.Int("test"))
 }
@@ -667,7 +665,7 @@ func TestInt64ApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, int64(7), c.Int64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, int64(7), c.Int64("test"))
 }
@@ -703,7 +701,7 @@ func TestInt64ApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, int64(12), c.Int64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, int64(12), c.Int64("test"))
 }
@@ -716,7 +714,7 @@ func TestUintApplyInputSourceMethodSet_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, uint(15), c.Uint("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, uint(15), c.Uint("test_alias"))
 }
@@ -729,7 +727,7 @@ func TestUintApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, uint(15), c.Uint("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, uint(15), c.Uint("test"))
 }
@@ -743,7 +741,7 @@ func TestUintApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, uint(7), c.Uint("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, uint(7), c.Uint("test"))
 }
@@ -756,7 +754,7 @@ func TestUint64ApplyInputSourceMethodSet_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, uint64(15), c.Uint64("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, uint64(15), c.Uint64("test_alias"))
 }
@@ -769,7 +767,7 @@ func TestUint64ApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, uint64(15), c.Uint64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, uint64(15), c.Uint64("test"))
 }
@@ -783,7 +781,7 @@ func TestUint64ApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, uint64(7), c.Uint64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, uint64(7), c.Uint64("test"))
 }
@@ -798,7 +796,7 @@ func TestUint64ApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, uint64(12), c.Uint64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, uint64(12), c.Uint64("test"))
 }
@@ -811,7 +809,7 @@ func TestDurationApplyInputSourceMethodSet_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 30*time.Second, c.Duration("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 30*time.Second, c.Duration("test_alias"))
 }
@@ -824,7 +822,7 @@ func TestDurationApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 30*time.Second, c.Duration("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 30*time.Second, c.Duration("test"))
 }
@@ -837,7 +835,7 @@ func TestDurationApplyInputSourceMethodSetNegativeValue(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, -30*time.Second, c.Duration("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, -30*time.Second, c.Duration("test"))
 }
@@ -851,7 +849,7 @@ func TestDurationApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 15*time.Second, c.Duration("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 15*time.Second, c.Duration("test"))
 }
@@ -866,7 +864,7 @@ func TestDurationApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 15*time.Second, c.Duration("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 15*time.Second, c.Duration("test"))
 }
@@ -879,7 +877,7 @@ func TestFloat64ApplyInputSourceMethodSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 1.3, c.Float64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 1.3, c.Float64("test"))
 }
@@ -892,7 +890,7 @@ func TestFloat64ApplyInputSourceMethodSetNegativeValue_Alias(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, -1.3, c.Float64("test_alias"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, -1.3, c.Float64("test_alias"))
 }
@@ -905,7 +903,7 @@ func TestFloat64ApplyInputSourceMethodSetNegativeValue(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, -1.3, c.Float64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, -1.3, c.Float64("test"))
 }
@@ -928,7 +926,7 @@ func TestFloat64ApplyInputSourceMethodContextSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 1.4, c.Float64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 1.4, c.Float64("test"))
 }
@@ -943,7 +941,7 @@ func TestFloat64ApplyInputSourceMethodEnvVarSet(t *testing.T) {
 	}
 	c := runTest(t, tis)
 	expect(t, 1.4, c.Float64("test"))
-
+	
 	c = runRacyTest(t, tis)
 	refute(t, 1.4, c.Float64("test"))
 }
@@ -959,7 +957,7 @@ func runTest(t *testing.T, test testApplyInputSource) *cli.Context {
 		_ = os.Setenv(test.EnvVarName, test.EnvVarValue)
 		defer os.Setenv(test.EnvVarName, "")
 	}
-
+	
 	_ = test.Flag.Apply(set)
 	if test.ContextValue != nil {
 		f := set.Lookup(test.FlagName)
@@ -969,7 +967,7 @@ func runTest(t *testing.T, test testApplyInputSource) *cli.Context {
 		_ = set.Set(test.FlagName, test.ContextValueString)
 	}
 	_ = test.Flag.ApplyInputSourceValue(c, inputSource)
-
+	
 	return c
 }
 
@@ -982,7 +980,7 @@ func runRacyTest(t *testing.T, test testApplyInputSource) *cli.Context {
 			valueMap: map[interface{}]interface{}{test.FlagName: test.MapValue},
 		},
 	})
-
+	
 	return c
 }
 
@@ -993,10 +991,10 @@ func (p *Parser) Set(value string) error {
 	if len(parts) != 2 {
 		return fmt.Errorf("invalid format")
 	}
-
+	
 	(*p)[0] = parts[0]
 	(*p)[1] = parts[1]
-
+	
 	return nil
 }
 

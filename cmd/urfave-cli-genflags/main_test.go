@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
-
-	main "github.com/urfave/cli/v2/cmd/urfave-cli-genflags"
+	
+	main "github.com/gozelle/cli/v2/cmd/urfave-cli-genflags"
 )
 
 func TestTypeName(t *testing.T) {
@@ -48,7 +48,7 @@ func TestSpec_SortedFlagTypes(t *testing.T) {
 			"gerf": nil,
 		},
 	}
-
+	
 	actual := spec.SortedFlagTypes()
 	expected := []*main.FlagType{
 		{
@@ -88,13 +88,13 @@ func genFlagType() *main.FlagType {
 
 func TestFlagType_StructFields(t *testing.T) {
 	ft := genFlagType()
-
+	
 	sf := ft.StructFields()
 	if 2 != len(sf) {
 		t.Errorf("expected 2 struct fields, got %v", len(sf))
 		return
 	}
-
+	
 	if "Foibles" != sf[0].Name {
 		t.Errorf("expected struct field order to be retained")
 	}
@@ -102,14 +102,14 @@ func TestFlagType_StructFields(t *testing.T) {
 
 func TestFlagType_ValuePointer(t *testing.T) {
 	ft := genFlagType()
-
+	
 	if !ft.ValuePointer() {
 		t.Errorf("expected ValuePointer to be true")
 		return
 	}
-
+	
 	ft.Config = nil
-
+	
 	if ft.ValuePointer() {
 		t.Errorf("expected ValuePointer to be false")
 	}
@@ -117,14 +117,14 @@ func TestFlagType_ValuePointer(t *testing.T) {
 
 func TestFlagType_GenerateFmtStringerInterface(t *testing.T) {
 	ft := genFlagType()
-
+	
 	if ft.GenerateFmtStringerInterface() {
 		t.Errorf("expected GenerateFmtStringerInterface to be false")
 		return
 	}
-
+	
 	ft.Config = nil
-
+	
 	if !ft.GenerateFmtStringerInterface() {
 		t.Errorf("expected GenerateFmtStringerInterface to be true")
 	}
@@ -132,14 +132,14 @@ func TestFlagType_GenerateFmtStringerInterface(t *testing.T) {
 
 func TestFlagType_GenerateFlagInterface(t *testing.T) {
 	ft := genFlagType()
-
+	
 	if !ft.GenerateFlagInterface() {
 		t.Errorf("expected GenerateFlagInterface to be true")
 		return
 	}
-
+	
 	ft.Config = nil
-
+	
 	if !ft.GenerateFlagInterface() {
 		t.Errorf("expected GenerateFlagInterface to be true")
 	}

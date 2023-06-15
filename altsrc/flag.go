@@ -5,8 +5,6 @@ import (
 	"path/filepath"
 	"strconv"
 	"syscall"
-
-	"github.com/urfave/cli/v2"
 )
 
 // FlagInputSourceExtension is an extension interface of cli.Flag that
@@ -30,7 +28,7 @@ func ApplyInputSourceValues(cCtx *cli.Context, inputSourceContext InputSourceCon
 			}
 		}
 	}
-
+	
 	return nil
 }
 
@@ -43,7 +41,7 @@ func InitInputSource(flags []cli.Flag, createInputSource func() (InputSourceCont
 		if err != nil {
 			return fmt.Errorf("Unable to create input source: inner error: \n'%v'", err.Error())
 		}
-
+		
 		return ApplyInputSourceValues(cCtx, inputSource, flags)
 	}
 }
@@ -57,7 +55,7 @@ func InitInputSourceWithContext(flags []cli.Flag, createInputSource func(cCtx *c
 		if err != nil {
 			return fmt.Errorf("Unable to create input source with context: inner error: \n'%v'", err.Error())
 		}
-
+		
 		return ApplyInputSourceValues(cCtx, inputSource, flags)
 	}
 }
@@ -82,7 +80,7 @@ func (f *GenericFlag) ApplyInputSourceValue(cCtx *cli.Context, isc InputSourceCo
 			_ = f.set.Set(n, value.String())
 		}
 	}
-
+	
 	return nil
 }
 
@@ -408,7 +406,7 @@ func isEnvVarSet(envVars []string) bool {
 			return true
 		}
 	}
-
+	
 	return false
 }
 
