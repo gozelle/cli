@@ -3,14 +3,14 @@ package altsrc_test
 import (
 	"errors"
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"testing"
 	"time"
-
-	"github.com/urfave/cli/v2"
-	"github.com/urfave/cli/v2/altsrc"
+	
+	"github.com/gozelle/cli/v2/altsrc"
 )
 
 func ExampleApp_Run_yamlFileLoaderDuration() {
@@ -19,12 +19,12 @@ func ExampleApp_Run_yamlFileLoaderDuration() {
 		fmt.Printf("keepalive %s\n", keepaliveInterval)
 		return nil
 	}
-
+	
 	fileExists := func(filename string) bool {
 		stat, _ := os.Stat(filename)
 		return stat != nil
 	}
-
+	
 	// initConfigFileInputSource is like InitInputSourceWithContext and NewYamlSourceFromFlagFunc, but checks
 	// if the config flag is exists and only loads it if it does. If the flag is set and the file exists, it fails.
 	initConfigFileInputSource := func(configFlag string, flags []cli.Flag) cli.BeforeFunc {
@@ -42,7 +42,7 @@ func ExampleApp_Run_yamlFileLoaderDuration() {
 			return altsrc.ApplyInputSourceValues(context, inputSource, flags)
 		}
 	}
-
+	
 	flagsServe := []cli.Flag{
 		&cli.StringFlag{
 			Name:        "config",
@@ -62,7 +62,7 @@ func ExampleApp_Run_yamlFileLoaderDuration() {
 			},
 		),
 	}
-
+	
 	cmdServe := &cli.Command{
 		Name:      "serve",
 		Usage:     "Run the server",
@@ -71,7 +71,7 @@ func ExampleApp_Run_yamlFileLoaderDuration() {
 		Flags:     flagsServe,
 		Before:    initConfigFileInputSource("config", flagsServe),
 	}
-
+	
 	c := &cli.App{
 		Name:                   "cmd",
 		HideVersion:            true,
@@ -80,11 +80,11 @@ func ExampleApp_Run_yamlFileLoaderDuration() {
 			cmdServe,
 		},
 	}
-
+	
 	if err := c.Run([]string{"cmd", "serve", "--config", "../testdata/empty.yml"}); err != nil {
 		log.Fatal(err)
 	}
-
+	
 	// Output:
 	// keepalive 45s
 }
@@ -93,7 +93,7 @@ func TestYamlFileInt64Slice(t *testing.T) {
 	_ = ioutil.WriteFile("current.yaml", []byte(`top: 
   test: [100, 9223372036854775808]`), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	testFlag := []cli.Flag{
 		&altsrc.StringFlag{StringFlag: &cli.StringFlag{Name: "conf"}},
 		&altsrc.Int64SliceFlag{Int64SliceFlag: &cli.Int64SliceFlag{Name: "top.test"}},
@@ -102,7 +102,7 @@ func TestYamlFileInt64Slice(t *testing.T) {
 	app.Before = altsrc.InitInputSourceWithContext(testFlag, altsrc.NewYamlSourceFromFlagFunc("conf"))
 	app.Action = func(c *cli.Context) error { return nil }
 	app.Flags = append(app.Flags, testFlag...)
-
+	
 	test := []string{"testApp", "--conf", "current.yaml"}
 	if err := app.Run(test); err == nil {
 		t.Error("should return the mismatch error")
@@ -113,7 +113,7 @@ func TestYamlFileStringSlice(t *testing.T) {
 	_ = ioutil.WriteFile("current.yaml", []byte(`top:
   test: ["s1", "s2"]`), 0666)
 	defer os.Remove("current.yaml")
-
+	
 	testFlag := []cli.Flag{
 		&altsrc.StringFlag{StringFlag: &cli.StringFlag{Name: "conf"}},
 		&altsrc.StringSliceFlag{StringSliceFlag: &cli.StringSliceFlag{Name: "top.test", EnvVars: []string{"THE_TEST"}}},
@@ -128,7 +128,7 @@ func TestYamlFileStringSlice(t *testing.T) {
 		}
 	}
 	app.Flags = append(app.Flags, testFlag...)
-
+	
 	test := []string{"testApp", "--conf", "current.yaml"}
 	if err := app.Run(test); err != nil {
 		t.Error(err)
@@ -178,11 +178,11 @@ func TestYamlFileUint64(t *testing.T) {
 			true,
 		},
 	}
-
+	
 	for i, test := range tests {
 		_ = ioutil.WriteFile("current.yaml", []byte(test.entry), 0666)
 		defer os.Remove("current.yaml")
-
+		
 		testFlag := []cli.Flag{
 			&altsrc.StringFlag{StringFlag: &cli.StringFlag{Name: "conf"}},
 			&altsrc.Uint64Flag{Uint64Flag: &cli.Uint64Flag{Name: test.name}},
@@ -190,7 +190,7 @@ func TestYamlFileUint64(t *testing.T) {
 		app := &cli.App{}
 		app.Flags = append(app.Flags, testFlag...)
 		app.Before = altsrc.InitInputSourceWithContext(testFlag, altsrc.NewYamlSourceFromFlagFunc("conf"))
-
+		
 		appCmd := []string{"testApp", "--conf", "current.yaml"}
 		err := app.Run(appCmd)
 		if result := err != nil; result != test.err {
@@ -242,11 +242,11 @@ func TestYamlFileUint(t *testing.T) {
 			true,
 		},
 	}
-
+	
 	for i, test := range tests {
 		_ = ioutil.WriteFile("current.yaml", []byte(test.entry), 0666)
 		defer os.Remove("current.yaml")
-
+		
 		testFlag := []cli.Flag{
 			&altsrc.StringFlag{StringFlag: &cli.StringFlag{Name: "conf"}},
 			&altsrc.UintFlag{UintFlag: &cli.UintFlag{Name: test.name}},
@@ -254,7 +254,7 @@ func TestYamlFileUint(t *testing.T) {
 		app := &cli.App{}
 		app.Flags = append(app.Flags, testFlag...)
 		app.Before = altsrc.InitInputSourceWithContext(testFlag, altsrc.NewYamlSourceFromFlagFunc("conf"))
-
+		
 		appCmd := []string{"testApp", "--conf", "current.yaml"}
 		err := app.Run(appCmd)
 		if result := err != nil; result != test.err {
@@ -306,11 +306,11 @@ func TestYamlFileInt64(t *testing.T) {
 			true,
 		},
 	}
-
+	
 	for i, test := range tests {
 		_ = ioutil.WriteFile("current.yaml", []byte(test.entry), 0666)
 		defer os.Remove("current.yaml")
-
+		
 		testFlag := []cli.Flag{
 			&altsrc.StringFlag{StringFlag: &cli.StringFlag{Name: "conf"}},
 			&altsrc.Int64Flag{Int64Flag: &cli.Int64Flag{Name: test.name}},
@@ -318,7 +318,7 @@ func TestYamlFileInt64(t *testing.T) {
 		app := &cli.App{}
 		app.Flags = append(app.Flags, testFlag...)
 		app.Before = altsrc.InitInputSourceWithContext(testFlag, altsrc.NewYamlSourceFromFlagFunc("conf"))
-
+		
 		appCmd := []string{"testApp", "--conf", "current.yaml"}
 		err := app.Run(appCmd)
 		if result := err != nil; result != test.err {

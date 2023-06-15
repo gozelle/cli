@@ -3,11 +3,10 @@ package altsrc
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"io"
 	"strings"
 	"time"
-
-	"github.com/urfave/cli/v2"
 )
 
 // NewJSONSourceFromFlagFunc returns a func that takes a cli.Context
@@ -19,7 +18,7 @@ func NewJSONSourceFromFlagFunc(flag string) func(c *cli.Context) (InputSourceCon
 		if cCtx.IsSet(flag) {
 			return NewJSONSourceFromFile(cCtx.String(flag))
 		}
-
+		
 		return defaultInputSource()
 	}
 }
@@ -32,7 +31,7 @@ func NewJSONSourceFromFile(f string) (InputSourceContext, error) {
 	if err != nil {
 		return nil, err
 	}
-
+	
 	return NewJSONSource(data)
 }
 

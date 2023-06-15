@@ -2,11 +2,10 @@ package altsrc
 
 import (
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"math"
 	"strings"
 	"time"
-
-	"github.com/urfave/cli/v2"
 )
 
 // MapInputSource implements InputSourceContext to return
@@ -32,7 +31,7 @@ func nestedVal(name string, tree map[interface{}]interface{}) (interface{}, bool
 			if !ok {
 				return nil, false
 			}
-
+			
 			switch child := child.(type) {
 			case map[string]interface{}:
 				node = make(map[interface{}]interface{}, len(child))
@@ -75,7 +74,7 @@ func (fsm *MapInputSource) Int(name string) (int, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return 0, nil
 }
 
@@ -89,7 +88,7 @@ func (fsm *MapInputSource) Duration(name string) (time.Duration, error) {
 	if exists {
 		return castDuration(name, nestedGenericValue)
 	}
-
+	
 	return 0, nil
 }
 
@@ -123,7 +122,7 @@ func (fsm *MapInputSource) Float64(name string) (float64, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return 0, nil
 }
 
@@ -133,7 +132,7 @@ func castToInt64(v interface{}) (int64, bool) {
 	if v == nil {
 		return int64Value, true
 	}
-
+	
 	// There are only four cases(int, int64, uint64, float64) when parsing the integer in yaml.v3 pkg
 	// But the cases, uint64, float64, are an error case so that ignored
 	switch value := v.(type) {
@@ -165,7 +164,7 @@ func (fsm *MapInputSource) Int64(name string) (int64, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return 0, nil
 }
 
@@ -175,7 +174,7 @@ func castToUint(v interface{}) (uint, bool) {
 	if v == nil {
 		return uintValue, true
 	}
-
+	
 	// There are only four cases(int, int64, uint64, float64) when parsing the integer in yaml.v3 pkg
 	// But the last case, float64, is an error case so that ignored
 	switch value := v.(type) {
@@ -222,7 +221,7 @@ func (fsm *MapInputSource) Uint(name string) (uint, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return 0, nil
 }
 
@@ -232,7 +231,7 @@ func castToUint64(v interface{}) (uint64, bool) {
 	if v == nil {
 		return uint64Value, true
 	}
-
+	
 	// There are only four cases(int, int64, uint64, float64) when parsing the integer in yaml.v3 pkg
 	// But the last case, float64, is an error case so that ignored
 	switch value := v.(type) {
@@ -276,7 +275,7 @@ func (fsm *MapInputSource) Uint64(name string) (uint64, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return 0, nil
 }
 
@@ -298,7 +297,7 @@ func (fsm *MapInputSource) String(name string) (string, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return "", nil
 }
 
@@ -311,23 +310,23 @@ func (fsm *MapInputSource) StringSlice(name string) ([]string, error) {
 			return nil, nil
 		}
 	}
-
+	
 	otherValue, isType := otherGenericValue.([]interface{})
 	if !isType {
 		return nil, incorrectTypeForFlagError(name, "[]interface{}", otherGenericValue)
 	}
-
+	
 	var stringSlice = make([]string, 0, len(otherValue))
 	for i, v := range otherValue {
 		stringValue, isType := v.(string)
-
+		
 		if !isType {
 			return nil, incorrectTypeForFlagError(fmt.Sprintf("%s[%d]", name, i), "string", v)
 		}
-
+		
 		stringSlice = append(stringSlice, stringValue)
 	}
-
+	
 	return stringSlice, nil
 }
 
@@ -340,23 +339,23 @@ func (fsm *MapInputSource) IntSlice(name string) ([]int, error) {
 			return nil, nil
 		}
 	}
-
+	
 	otherValue, isType := otherGenericValue.([]interface{})
 	if !isType {
 		return nil, incorrectTypeForFlagError(name, "[]interface{}", otherGenericValue)
 	}
-
+	
 	var intSlice = make([]int, 0, len(otherValue))
 	for i, v := range otherValue {
 		intValue, isType := v.(int)
-
+		
 		if !isType {
 			return nil, incorrectTypeForFlagError(fmt.Sprintf("%s[%d]", name, i), "int", v)
 		}
-
+		
 		intSlice = append(intSlice, intValue)
 	}
-
+	
 	return intSlice, nil
 }
 
@@ -369,12 +368,12 @@ func (fsm *MapInputSource) Int64Slice(name string) ([]int64, error) {
 			return nil, nil
 		}
 	}
-
+	
 	otherValue, isType := otherGenericValue.([]interface{})
 	if !isType {
 		return nil, incorrectTypeForFlagError(name, "[]interface{}", otherGenericValue)
 	}
-
+	
 	var int64Slice = make([]int64, 0, len(otherValue))
 	for i, v := range otherValue {
 		int64Value, isType := castToInt64(v)
@@ -383,7 +382,7 @@ func (fsm *MapInputSource) Int64Slice(name string) ([]int64, error) {
 		}
 		int64Slice = append(int64Slice, int64Value)
 	}
-
+	
 	return int64Slice, nil
 }
 
@@ -396,23 +395,23 @@ func (fsm *MapInputSource) Float64Slice(name string) ([]float64, error) {
 			return nil, nil
 		}
 	}
-
+	
 	otherValue, isType := otherGenericValue.([]interface{})
 	if !isType {
 		return nil, incorrectTypeForFlagError(name, "[]interface{}", otherGenericValue)
 	}
-
+	
 	var float64Slice = make([]float64, 0, len(otherValue))
 	for i, v := range otherValue {
 		float64Value, isType := v.(float64)
-
+		
 		if !isType {
 			return nil, incorrectTypeForFlagError(fmt.Sprintf("%s[%d]", name, i), "int", v)
 		}
-
+		
 		float64Slice = append(float64Slice, float64Value)
 	}
-
+	
 	return float64Slice, nil
 }
 
@@ -434,7 +433,7 @@ func (fsm *MapInputSource) Generic(name string) (cli.Generic, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return nil, nil
 }
 
@@ -456,7 +455,7 @@ func (fsm *MapInputSource) Bool(name string) (bool, error) {
 		}
 		return otherValue, nil
 	}
-
+	
 	return false, nil
 }
 
@@ -464,7 +463,7 @@ func (fsm *MapInputSource) isSet(name string) bool {
 	if _, exists := fsm.valueMap[name]; exists {
 		return exists
 	}
-
+	
 	_, exists := nestedVal(name, fsm.valueMap)
 	return exists
 }

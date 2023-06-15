@@ -1,9 +1,8 @@
 package altsrc
 
 import (
+	"github.com/gozelle/cli/v2"
 	"time"
-
-	"github.com/urfave/cli/v2"
 )
 
 // InputSourceContext is an interface used to allow
@@ -13,7 +12,7 @@ import (
 // it should return path to the file.
 type InputSourceContext interface {
 	Source() string
-
+	
 	Int(name string) (int, error)
 	Int64(name string) (int64, error)
 	Uint(name string) (uint, error)
@@ -27,6 +26,6 @@ type InputSourceContext interface {
 	Float64Slice(name string) ([]float64, error)
 	Generic(name string) (cli.Generic, error)
 	Bool(name string) (bool, error)
-
+	
 	isSet(name string) bool
 }

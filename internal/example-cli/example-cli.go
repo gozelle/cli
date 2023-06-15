@@ -2,9 +2,7 @@
 
 package main
 
-import (
-	"github.com/urfave/cli/v2"
-)
+import "github.com/gozelle/cli/v2"
 
 func main() {
 	(&cli.App{}).Run([]string{""})

@@ -2,10 +2,10 @@ package altsrc
 
 import (
 	"fmt"
+	"github.com/gozelle/cli/v2"
 	"reflect"
-
+	
 	"github.com/BurntSushi/toml"
-	"github.com/urfave/cli/v2"
 )
 
 type tomlMap struct {
@@ -91,7 +91,7 @@ func NewTomlSourceFromFlagFunc(flagFileName string) func(cCtx *cli.Context) (Inp
 			filePath := cCtx.String(flagFileName)
 			return NewTomlSourceFromFile(filePath)
 		}
-
+		
 		return defaultInputSource()
 	}
 }
@@ -101,12 +101,12 @@ func readCommandToml(filePath string, container interface{}) (err error) {
 	if err != nil {
 		return err
 	}
-
+	
 	err = toml.Unmarshal(b, container)
 	if err != nil {
 		return err
 	}
-
+	
 	err = nil
 	return
 }
